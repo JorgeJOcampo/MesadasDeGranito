@@ -1,13 +1,12 @@
 package parcial;
 
-import java.io.File;
-import java.io.FileNotFoundException;
+import java.io.*;
 import java.util.*;
 
 public class Mesadas {
     private int cantidadDeMesadas;
     private Mesada[] mesadas;
-    private int cantidadDePilas;
+    private int cantidadDePilas = 0;
 
     public int getCantidadDePilas() {
         return cantidadDePilas;
@@ -16,20 +15,31 @@ public class Mesadas {
     public Mesadas(String path) throws FileNotFoundException {
         Scanner sc = new Scanner(new File(path));
         cantidadDeMesadas = sc.nextInt();
+        mesadas = new Mesada[cantidadDeMesadas];
         for(int i = 0 ; i < cantidadDeMesadas ; i++){
             mesadas[i] = new Mesada(sc.nextInt(), sc.nextInt());
         }
+        sc.close();
     }
 
     public Mesadas(Mesada[] mesadas){
-        cantidadDeMesadas = 3;
         this.mesadas = mesadas;
     }
 
-    public void resolver(){
+    public void resolver() throws IOException {
         acomodarPorDimension();
         ordenarPorLargo();
-        cantidadDePilas = 0;
+        contarPilas();
+        grabar("C:\\Users\\Shorshi\\MesadasDeGranito\\pilas.out");
+    }
+
+    private void grabar(String path) throws IOException {
+        PrintWriter pw = new PrintWriter(new FileWriter(path));
+        pw.println(cantidadDePilas);
+        pw.close();
+    }
+
+    private void contarPilas() {
         for(int i = 0 ; i < cantidadDeMesadas ; i++){
             if(mesadas[i].getLargo() != 0){
                 mesadas[i].setLargo(0);
