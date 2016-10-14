@@ -35,4 +35,8 @@ public class Mesada {
     public boolean esCompatible(Mesada mesada) {
         return this.getAncho() >= mesada.getAncho();
     }
+
+    public Mesada clone(){
+        return new Mesada(this.getLargo(), this.getAncho());
+    }
 }
